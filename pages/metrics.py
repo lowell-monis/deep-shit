@@ -9,7 +9,6 @@ metric_mapping = {
     'Shares': 'video_share_count'
 }
 
-# Changed path to '/metrics' since home.py will be at '/'
 dash.register_page(__name__, name="Engagement Metrics", path='/metrics')
 
 layout = html.Div(style={'backgroundColor': 'black', 'color': 'white', 'padding': '20px'}, children=[

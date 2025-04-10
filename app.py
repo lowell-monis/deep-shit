@@ -3,7 +3,6 @@ import dash
 
 app = Dash(__name__, use_pages=True)
 
-# Button styles
 button_style = {
     'backgroundColor': '#444',
     'color': 'white',
@@ -28,7 +27,7 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
         'borderBottom': '1px solid #333',
         'boxShadow': '0 2px 5px rgba(0,0,0,0.3)'
     }, children=[
-        html.H1('TikTok Analytics Dashboard', style={
+        html.H1('Are we in deep shit?', style={
             'color': 'white', 
             'marginBottom': '20px',
             'textAlign': 'center'

@@ -63,7 +63,6 @@ def create_sankey_figure(df):
     ))
     
     fig.update_layout(
-        title_text="TikTok Content Flow Analysis",
         font_size=12,
         paper_bgcolor='black',
         plot_bgcolor='black',
@@ -74,7 +73,7 @@ def create_sankey_figure(df):
     return fig
 
 layout = html.Div(style={'backgroundColor': 'black', 'padding': '20px'}, children=[
-    html.H1("TikTok Analytics Dashboard", style={'color': 'white'}),
+    html.H1("Is TikTok doing its job?", style={'color': 'white'}),
     dcc.Graph(
         id='sankey-graph',
         figure=create_sankey_figure(tiktok_clean),
