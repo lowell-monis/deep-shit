@@ -54,4 +54,4 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
 ])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
