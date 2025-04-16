@@ -3,6 +3,7 @@ import dash
 
 app = Dash(__name__, use_pages=True)
 
+
 button_style = {
     'backgroundColor': '#444',
     'color': 'white',
@@ -27,17 +28,36 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
         'borderBottom': '1px solid #333',
         'boxShadow': '0 2px 5px rgba(0,0,0,0.3)'
     }, children=[
-        html.H1('Are we in deep shit?', style={
-            'color': 'white', 
-            'marginBottom': '20px',
-            'textAlign': 'center'
-        }),
-        html.Div(style={
-            'display': 'flex',
-            'justifyContent': 'center',
-            'flexWrap': 'wrap',
-            'gap': '10px'
-        }, children=[
+        html.H1(
+    [
+        "Are we in ",
+        html.Span(
+            "deep shit",
+            style={
+                'textShadow': '2px 2px 0 #ff0050, 4px 4px 0 #00f2ea, 6px 6px 0 #000000',
+                'display': 'inline-block'
+            }
+        ),
+        "?"
+    ],
+    style={
+        'color': 'white',
+        'fontFamily': '"Garamond", sans-serif',
+        'marginBottom': '20px',
+        'textAlign': 'center',
+        'fontSize': '3rem',
+        'fontWeight': 'bold',
+        'position': 'relative',
+        'zIndex': '1',
+        'padding': '10px'
+    }
+),
+html.Div(style={
+    'display': 'flex',
+    'justifyContent': 'center',
+    'flexWrap': 'wrap',
+    'gap': '10px'
+}, children=[
             dcc.Link(
                 html.Button(
                     page['name'],
@@ -54,4 +74,4 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
 ])
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
