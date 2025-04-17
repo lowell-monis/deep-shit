@@ -50,7 +50,7 @@ layout = html.Div(
 
                 html.H5("Media, Visual & Stock Sources", style={'marginTop': '20px'}),
                 html.Ul([
-                    html.Li("Intro video clip: Samantha Bee - YouTube Clip"),
+                    html.Li(html.A("Intro video clip: Samantha Bee - YouTube Clip", href="https://www.youtube.com/watch?v=UhrxV7AaLAc", target="_blank")),
                     html.Li(html.A("How conspiracy theories spread online", href="https://theconversation.com/how-conspiracy-theories-spread-online-its-not-just-down-to-algorithms-133891", target="_blank")),
                     html.Li(html.A("YouTube’s misinformation problem (NYTimes)", href="https://www.nytimes.com/2022/11/05/technology/youtube-misinformation.html", target="_blank"))
                 ]),
