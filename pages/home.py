@@ -5,64 +5,71 @@ import dash
 
 dash.register_page(__name__, path='/', name="Content Journey")
 
+# Load data
 try:
     tiktok_clean = pd.read_csv('data/tiktok_dataset.csv')
 except:
     tiktok_clean = pd.DataFrame()
 
+# Create Sankey Figure
+
 def create_sankey_figure(df):
     if df.empty:
         return go.Figure()
-    
+
     source, target, value, colors, node_labels = [], [], [], [], []
     categories = ['claim_status', 'verified_status', 'author_ban_status']
-    
-    # TikTok color palette
-    tiktok_pink = '#FF0050'
-    tiktok_aqua = '#00F2EA'
-    tiktok_black = '#000000'
-    tiktok_gray = '#333333'
-    tiktok_white = '#FFFFFF'
-    tiktok_magenta = '#de8c9d'
-    tiktok_blue = '#397684'
-    
-    flow_colors = {
-        'claim': tiktok_magenta,
-        'opinion': tiktok_blue,
-        'not verified': tiktok_pink,
-        'verified': tiktok_aqua
+
+    tiktok_colors = {
+        'pink': '#FF0050',
+        'aqua': '#00F2EA',
+        'black': '#000000',
+        'gray': '#333333',
+        'white': '#FFFFFF',
+        'magenta': '#de8c9d',
+        'blue': '#397684'
     }
-    
-    # Node labels (simplified formatting)
+
+    flow_colors = {
+        'claim': tiktok_colors['magenta'],
+        'opinion': tiktok_colors['blue'],
+        'not verified': tiktok_colors['pink'],
+        'verified': tiktok_colors['aqua']
+    }
+
     node_map = {}
     index = 0
     for col in categories:
         for label in df[col].unique():
             node_map[(col, label)] = index
-            # Cleaner label formatting (removes "status" redundancy)
-            clean_col = col.replace('_status', '')
-            node_labels.append(f"{clean_col}: {label}")
+            label_clean = str(label).title()  # Safe conversion and formatting  # Cleaned label
+            node_labels.append(label_clean)
             index += 1
-    
-    # Build flow data
-    for i in range(len(categories)-1):
-        col1, col2 = categories[i], categories[i+1]
+
+    for i in range(len(categories) - 1):
+        col1, col2 = categories[i], categories[i + 1]
         flow_data = df.groupby([col1, col2]).size().reset_index(name='count')
-        
         for _, row in flow_data.iterrows():
             source.append(node_map[(col1, row[col1])])
             target.append(node_map[(col2, row[col2])])
             value.append(row['count'])
-            colors.append(flow_colors.get(row[col1], tiktok_gray))
-    
-    # Create Sankey diagram
+            if col2 == 'author_ban_status':
+                if row[col2] == 'under review':
+                    colors.append('#FFA500')  # orange for under review
+                elif row[col2] == 'banned':
+                    colors.append('#8B0000')  # dark red for banned
+                else:
+                    colors.append(flow_colors.get(row[col1], tiktok_colors['gray']))
+            else:
+                colors.append(flow_colors.get(row[col1], tiktok_colors['gray']))
+
     fig = go.Figure(go.Sankey(
         node=dict(
             pad=20,
             thickness=25,
-            line=dict(color=tiktok_black, width=0.8),
+            line=dict(color=tiktok_colors['black'], width=0.8),
             label=node_labels,
-            color=tiktok_gray,  # Node color
+            color=tiktok_colors['gray'],
             hovertemplate='%{label}<extra></extra>'
         ),
         link=dict(
@@ -73,50 +80,53 @@ def create_sankey_figure(df):
             hovertemplate='From %{source.label}<br>To %{target.label}<br>Count: %{value}<extra></extra>'
         )
     ))
-    
-    # TikTok-styled layout
+
     fig.update_layout(
         font_family='Garamond, serif',
-        font_size=14,
-        font_color=tiktok_white,
-        paper_bgcolor=tiktok_black,
-        plot_bgcolor=tiktok_black,
-        height=700,
-        margin=dict(l=50, r=50, b=50, t=50),
+        font_size=18,
+        font_color=tiktok_colors['white'],
+        paper_bgcolor=tiktok_colors['black'],
+        plot_bgcolor=tiktok_colors['black'],
+        height=720,
+        margin=dict(l=30, r=30, b=30, t=30),
         hoverlabel=dict(
             font_family='Garamond',
-            bgcolor=tiktok_black,
-            font_color=tiktok_white
+            bgcolor=tiktok_colors['black'],
+            font_color=tiktok_colors['white']
         )
     )
-    
     return fig
 
+# Layout with Intro + Sankey
 layout = html.Div(
+    className='main-container',
     style={
-        'backgroundColor': 'black', 
-        'padding': '20px',
-        'display': 'flex',          # Enables flexible container
-        'flexDirection': 'column',  # Stacks children vertically
-        'alignItems': 'flex-end'    # Right-aligns children (including graph)
-    }, 
+        'display': 'flex',
+        'flexDirection': 'row',
+        'gap': '20px',
+        'backgroundColor': '#000',
+        'padding': '20px'
+    },
     children=[
-        html.H1(
-            "", 
-            style={
-                'fontFamily': '"Garamond", sans-serif', 
-                'color': 'white',
-                'marginRight': '20px'  # Aligns text with right-aligned graph
-            }
-        ),
-        dcc.Graph(
-            id='sankey-graph',
-            figure=create_sankey_figure(tiktok_clean),
-            style={
-                'height': '60vh',       # Reduced from 80vh
-                'width': '50%',        # Constrains width
-                'marginLeft': 'auto'    # Pushes graph to right
-            }
-        )
+        html.Div(className='text-info-box', style={'flex': '1', 'minWidth': '350px', 'height': '750px'}, children=[
+            html.Div(className='text-info-header', children="Understanding the Journey of Misinformation"),
+            html.Div(className='text-info-content', children=[
+                html.P("TikTok is not just a platform for trends and entertainment — it is now one of the most influential engines of information for a new generation."),
+                html.P("In the age of instant video, claims spread quickly, gaining momentum before they can be challenged."),
+                html.P("This Sankey diagram visualizes how content flows from claim or opinion, through the layer of verification, and ends with whether the author is ultimately banned."),
+                html.P("With the rise of AI-generated misinformation and deepfakes, the integrity of public discourse is more vulnerable than ever. The design of TikTok — fast, visual, and emotionally driven — accelerates the journey from content creation to mass influence.")
+            ])
+        ]),
+
+        html.Div(style={'flex': '2'}, children=[
+            dcc.Graph(
+                id='sankey-graph',
+                figure=create_sankey_figure(tiktok_clean),
+                style={
+                    'height': '700px', 'maxWidth': '1000px',
+                    'width': '100%'
+                }
+            )
+        ])
     ]
 )

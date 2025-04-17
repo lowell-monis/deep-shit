@@ -7,3 +7,5 @@ matplotlib
 numpy
 io
 base64
+seaborn
+scipy
