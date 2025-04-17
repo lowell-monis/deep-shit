@@ -1,3 +1,9 @@
 dash
 plotly
 pandas
+wordcloud
+dash_bootstrap_components
+matplotlib
+numpy
+io
+base64

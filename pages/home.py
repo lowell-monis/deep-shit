@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import dash
 
-dash.register_page(__name__, path='/', name="Home")
+dash.register_page(__name__, path='/', name="Content Journey")
 
 try:
     tiktok_clean = pd.read_csv('data/tiktok_dataset.csv')
@@ -102,7 +102,7 @@ layout = html.Div(
     }, 
     children=[
         html.H1(
-            "Is TikTok doing its job?", 
+            "", 
             style={
                 'fontFamily': '"Garamond", sans-serif', 
                 'color': 'white',

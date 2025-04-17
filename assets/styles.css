@@ -1,0 +1,200 @@
+:root {
+    --tiktok-pink: #FF0050;
+    --tiktok-aqua: #00F2EA;
+    --tiktok-black: #000000;
+    --tiktok-dark: #111111;
+    --tiktok-white: #FFFFFF;
+  }
+  
+  /* Main Container */
+  .main-container {
+    padding: 20px;
+    background-color: var(--tiktok-black);
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: 100vh;
+  }
+  
+  /* Headers */
+  h1 {
+    color: var(--tiktok-white);
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    font-family: "Garamond", serif;
+  }
+  
+  h3 {
+    color: var(--tiktok-aqua);
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-family: "Garamond", serif;
+  }
+  
+  .filter-header {
+    border-bottom: 1px solid var(--tiktok-aqua);
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+  
+  /* Labels */
+  label {
+    color: var(--tiktok-white);
+    margin-top: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+    font-family: "Garamond", serif;
+  }
+  
+  /* Dropdowns */
+  .axis-dropdown, .color-dropdown, .filter-dropdown {
+    margin-bottom: 15px;
+    background-color: var(--tiktok-dark);
+    border-radius: 5px;
+    font-family: "Garamond", serif;
+  }
+  
+  .Select-control {
+    background-color: var(--tiktok-dark) !important;
+    border-color: var(--tiktok-aqua) !important;
+    color: var(--tiktok-white) !important;
+  }
+  
+  .Select-menu-outer {
+    background-color: var(--tiktok-dark) !important;
+    border-color: var(--tiktok-aqua) !important;
+  }
+  
+  .Select-value {
+    color: var(--tiktok-white) !important;
+    background-color: rgba(0, 242, 234, 0.2) !important;
+  }
+  
+  .Select-value-label {
+    color: var(--tiktok-white) !important;
+  }
+  
+  /* Buttons */
+  .dash-button {
+    background-color: var(--tiktok-dark);
+    color: var(--tiktok-white);
+    border: 1px solid var(--tiktok-aqua);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: "Garamond", serif;
+    transition: all 0.2s ease;
+    width: 100%;
+    font-size: 1.2rem;
+  }
+  
+  .dash-button:hover {
+    text-shadow: 1px 1px 0 var(--tiktok-pink);
+    border-color: var(--tiktok-pink);
+    background-color: rgba(0, 242, 234, 0.1);
+  }
+  
+  @keyframes glitch-effect {
+    0%, 90% {
+        color: white;
+        text-shadow: none;
+        transform: translateX(0);
+    }
+    91%, 92% {
+        text-shadow: -2px -2px 0 #ff0050, -4px -4px 0 #00f2ea, -6px -6px 0 #000000;
+        transform: translateX(3px);
+    }
+    93%, 94% {
+        text-shadow: 2px 2px 0 #ff0050, 4px 4px 0 #00f2ea, 6px 6px 0 #000000;
+        transform: translateX(3px);
+    }
+    95%, 100% {
+        text-shadow: none;
+        transform: translateX(0);
+    }
+  }
+  
+  .glitch-button:hover {
+    animation: glitch-effect 3s infinite;
+  }
+  
+  /* Containers */
+  .filter-container {
+    background-color: var(--tiktok-dark);
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%;
+    margin-right: 10px;
+    border: 1px solid var(--tiktok-aqua);
+    box-shadow: 0 0 15px rgba(0, 242, 234, 0.2);
+  }
+  
+  .plot-container {
+    background-color: var(--tiktok-dark);
+    border-radius: 10px;
+    padding: 15px;
+    height: 100%;
+    margin-left: 10px;
+    border: 1px solid;
+    box-shadow: 0 0 15px rgba(255, 0, 80, 0.2);
+  }
+  
+  .point-plot-graph {
+    height: 70vh;
+    width: 100%;
+  }
+  
+  /* Info boxes */
+  .text-info-box {
+    background-color: var(--tiktok-dark);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid var(--tiktok-aqua);
+    height: 250px;
+    overflow-y: auto;
+  }
+  
+  .text-info-header {
+    border-bottom: 1px solid var(--tiktok-pink);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+    color: var(--tiktok-aqua);
+    font-size: 1.3rem;
+  }
+  
+  .text-info-content {
+    color: var(--tiktok-white);
+    font-family: "Garamond", serif;
+    font-size: 1rem;
+  }
+  
+  .text-info-content p {
+    margin-bottom: 8px;
+  }
+  
+  /* Dividers */
+  .filter-divider {
+    border-color: var(--tiktok-aqua);
+    margin: 25px 0;
+    opacity: 0.5;
+  }
+  
+  /* Helpers */
+  .mb-3 {
+    margin-bottom: 1rem;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mt-4 {
+    margin-top: 1.5rem;
+  }
+  
+  /* Import Font Awesome if not already imported in your main CSS */
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');

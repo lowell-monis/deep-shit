@@ -1,25 +1,13 @@
 from dash import Dash, html, dcc
 import dash
+import dash_bootstrap_components as dbc
 
-app = Dash(__name__, use_pages=True)
-
-
-button_style = {
-    'backgroundColor': '#444',
-    'color': 'white',
-    'border': '1px solid #555',
-    'padding': '10px 20px',
-    'margin': '5px',
-    'borderRadius': '5px',
-    'cursor': 'pointer',
-    'transition': 'all 0.3s ease',
-    'fontWeight': 'bold'
-}
-
-button_hover_style = {
-    'backgroundColor': '#666',
-    'transform': 'scale(1.05)'
-}
+app = dash.Dash(__name__, 
+                external_stylesheets=[
+                    dbc.themes.BOOTSTRAP,
+                    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'
+                ],
+                use_pages=True)
 
 app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, children=[
     html.Div(style={
@@ -34,35 +22,61 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
         html.Span(
             "deep shit",
             style={
+                'color': 'white',
                 'textShadow': '2px 2px 0 #ff0050, 4px 4px 0 #00f2ea, 6px 6px 0 #000000',
-                'display': 'inline-block'
+                'display': 'inline-block',
+                'animation': 'glitch-effect 2.5s infinite' 
             }
         ),
         "?"
     ],
-    style={
-        'color': 'white',
-        'fontFamily': '"Garamond", sans-serif',
-        'marginBottom': '20px',
-        'textAlign': 'center',
-        'fontSize': '3rem',
-        'fontWeight': 'bold',
-        'position': 'relative',
-        'zIndex': '1',
-        'padding': '10px'
-    }
-),
-html.Div(style={
-    'display': 'flex',
-    'justifyContent': 'center',
-    'flexWrap': 'wrap',
-    'gap': '10px'
-}, children=[
+            style={
+                'color': 'white',
+                'fontFamily': '"Garamond", sans-serif',
+                'marginBottom': '5px',
+                'textAlign': 'center',
+                'fontSize': '3rem',
+                'fontWeight': 'bold',
+                'position': 'relative',
+                'zIndex': '1',
+                'padding': '10px 10px 0 10px'
+            }
+        ),
+        
+        html.H2(
+            [
+                "Can ",
+                html.Span(
+                    "TikTok",
+                    style={
+                        'textShadow': '1px 1px 0 #ff0050, 2px 2px 0 #00f2ea, 3px 3px 0 #000000',
+                        'display': 'inline-block'
+                    }
+                ),
+                " hold the leash on mis/disinformation?"
+            ],
+            style={
+                'color': 'white',
+                'fontFamily': '"Garamond", sans-serif',
+                'textAlign': 'center',
+                'fontSize': '1.5rem',
+                'marginTop': '0px',
+                'marginBottom': '20px',
+                'padding': '0 10px 10px 10px'
+            }
+        ),
+        
+        html.Div(style={
+            'display': 'flex',
+            'justifyContent': 'center',
+            'flexWrap': 'wrap',
+            'gap': '10px'
+        }, children=[
             dcc.Link(
                 html.Button(
                     page['name'],
                     id=f'btn-{page["name"].lower().replace(" ", "-")}',
-                    style=button_style,
+                    className='dash-button',
                     n_clicks=0
                 ),
                 href=page['relative_path'],
