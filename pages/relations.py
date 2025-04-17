@@ -7,11 +7,9 @@ import dash
 
 data = pd.read_csv('data/tiktok_dataset.csv')
 
-# data cleaning, purging missing values and duplicates
 def clean_dropdown_options(series):
     return [{'label': str(s), 'value': s} for s in series.unique() if pd.notna(s)]
 
-# Define allowed video metrics for x and y axes
 allowed_metrics = [
     'video_duration_sec',
     'video_view_count', 
@@ -21,27 +19,23 @@ allowed_metrics = [
     'video_comment_count'
 ]
 
-# Filter numeric columns to only include allowed metrics
 numeric_options = [{'label': col.replace('_', ' ').title(), 'value': col} 
                   for col in allowed_metrics if col in data.columns]
 
 dash.register_page(__name__, path='/relations', name="Correlations")
 
-# color palette for TikTok theme
 tiktok_pink = '#FF0050'
 tiktok_aqua = '#00F2EA'
 tiktok_black = '#000000'
 tiktok_dark = '#111111'
 tiktok_white = '#FFFFFF'
 
-# Dropdown styling
 dropdown_style = {
     'color': 'white',
     'backgroundColor': tiktok_black,
     'borderColor': tiktok_pink
 }
 
-# Hover text styling
 hover_style = {
     'max-width': '300px',
     'white-space': 'pre-wrap',
@@ -99,7 +93,6 @@ layout = html.Div([
                 
                 html.H3("Data Filters", className="filter-header"),
                 
-                # Discrete value filters
                 dbc.Row([
                     dbc.Col([
                         html.Label("Content Classification:"),
@@ -140,7 +133,6 @@ layout = html.Div([
                     ], width=6),
                 ], justify="center", className="mb-4"),
                 
-                # Numerical/continuous filters
                 dbc.Row([
                     dbc.Col([
                         html.Label("Video Duration (seconds):"),
@@ -200,9 +192,8 @@ layout = html.Div([
                 ], justify="center", className="mb-4"),
                 
             ], className="filter-container", style={'width': '100%'})
-        ], width=6),  # Increased width from 6 to 8
+        ], width=6), 
         
-        # Right side: Plot and insights
         dbc.Col([
             html.Div([
                 dcc.Graph(
@@ -210,17 +201,15 @@ layout = html.Div([
                     config={'displayModeBar': True, 'scrollZoom': True},
                     className='point-plot-graph'
                 ),
-                # Moved data insights under the plot
                 html.Div([
                     html.H3("Data Insights", className="text-info-header"),
                     html.Div(id='data-summary', className="text-info-content")
                 ], className="text-info-box plot-insights-box")
             ], className="plot-container")
-        ], width=6)  # Adjusted width to balance the expanded filters
+        ], width=6) 
     ]),
 ], className="main-container")
 
-# Callback to update the plot
 @callback(
     [Output('point-plot', 'figure'),
      Output('data-summary', 'children')],
@@ -238,10 +227,8 @@ layout = html.Div([
 def update_plot(n_clicks, duration_range, views_range, likes_range, 
                 x_axis, y_axis, color_by, claim_status, verified_status, ban_status):
     try:
-        # Create a filtered dataframe
         filtered_df = data.copy()
         
-        # Apply filters
         if claim_status and len(claim_status) > 0:
             filtered_df = filtered_df[filtered_df['claim_status'].isin(claim_status)]
         if verified_status and len(verified_status) > 0:
@@ -249,7 +236,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
         if ban_status and len(ban_status) > 0:
             filtered_df = filtered_df[filtered_df['author_ban_status'].isin(ban_status)]
         
-        # Apply range filters
         filtered_df = filtered_df[
             (filtered_df['video_duration_sec'] >= duration_range[0]) & 
             (filtered_df['video_duration_sec'] <= duration_range[1]) &
@@ -259,11 +245,9 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             (filtered_df['video_like_count'] <= likes_range[1])
         ]
         
-        # Check if columns exist
         if x_axis not in filtered_df.columns or y_axis not in filtered_df.columns:
             raise ValueError("Selected axis columns not found in data")
             
-        # Handle missing values
         filtered_df = filtered_df.dropna(subset=[x_axis, y_axis])
         
         if filtered_df.empty:
@@ -276,7 +260,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             )
             return empty_fig, "No data available for the selected filters"
         
-        # Create figure with custom hover data
         if color_by != 'none':
             fig = px.scatter(
                 filtered_df, 
@@ -291,7 +274,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
                 }
             )
             
-            # Customize legend title based on color_by selection
             color_title_map = {
                 'claim_status': 'Content Classification',
                 'verified_status': 'Verification Status',
@@ -311,7 +293,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             )
             fig.update_traces(marker=dict(color=tiktok_pink))
 
-        # Create custom hover template with proper wrapping
         fig.update_traces(
             hovertemplate=(
                 '<span style="font-family: Arial; font-size: 12px; color: white; '
@@ -322,7 +303,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             customdata=filtered_df[['video_transcription_text']].values
         )
 
-        # Update layout with hover settings
         fig.update_layout(
             hoverlabel=dict(
                 bgcolor=tiktok_black,
@@ -332,11 +312,9 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             )
         )
         
-        # Format axis titles
         x_title = x_axis.replace('_', ' ').title()
         y_title = y_axis.replace('_', ' ').title()
         
-        # Update layout
         fig.update_layout(
             plot_bgcolor=tiktok_black,
             paper_bgcolor=tiktok_black,
@@ -350,7 +328,6 @@ def update_plot(n_clicks, duration_range, views_range, likes_range,
             )
         )
         
-        # Calculate correlation safely
         try:
             corr = filtered_df[x_axis].corr(filtered_df[y_axis])*100
             corr_text = f"Correlation: {corr:.3f}%"

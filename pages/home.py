@@ -5,13 +5,9 @@ import dash
 
 dash.register_page(__name__, path='/', name="Content Journey")
 
-# Load data
-try:
-    tiktok_clean = pd.read_csv('data/tiktok_dataset.csv')
-except:
-    tiktok_clean = pd.DataFrame()
+tiktok_clean = pd.read_csv('data/tiktok_dataset.csv')
 
-# Create Sankey Figure
+
 
 def create_sankey_figure(df):
     if df.empty:
@@ -42,7 +38,7 @@ def create_sankey_figure(df):
     for col in categories:
         for label in df[col].unique():
             node_map[(col, label)] = index
-            label_clean = str(label).title()  # Safe conversion and formatting  # Cleaned label
+            label_clean = str(label).title() 
             node_labels.append(label_clean)
             index += 1
 
@@ -55,9 +51,9 @@ def create_sankey_figure(df):
             value.append(row['count'])
             if col2 == 'author_ban_status':
                 if row[col2] == 'under review':
-                    colors.append('#FFA500')  # orange for under review
+                    colors.append('#FFA500') 
                 elif row[col2] == 'banned':
-                    colors.append('#8B0000')  # dark red for banned
+                    colors.append('#8B0000') 
                 else:
                     colors.append(flow_colors.get(row[col1], tiktok_colors['gray']))
             else:
@@ -82,13 +78,16 @@ def create_sankey_figure(df):
     ))
 
     fig.update_layout(
+        
         font_family='Garamond, serif',
         font_size=18,
         font_color=tiktok_colors['white'],
         paper_bgcolor=tiktok_colors['black'],
         plot_bgcolor=tiktok_colors['black'],
         height=720,
-        margin=dict(l=30, r=30, b=30, t=30),
+        margin=dict(l=30, r=30, b=30, t=30,
+        autoexpand=False
+    ),
         hoverlabel=dict(
             font_family='Garamond',
             bgcolor=tiktok_colors['black'],
@@ -97,7 +96,6 @@ def create_sankey_figure(df):
     )
     return fig
 
-# Layout with Intro + Sankey
 layout = html.Div(
     className='main-container',
     style={
@@ -123,8 +121,7 @@ layout = html.Div(
                 id='sankey-graph',
                 figure=create_sankey_figure(tiktok_clean),
                 style={
-                    'height': '700px', 'maxWidth': '1000px',
-                    'width': '100%'
+                    'height': '700px', 'width': '1000px', 'minWidth': '800px', 'maxWidth': '1000px'
                 }
             )
         ])

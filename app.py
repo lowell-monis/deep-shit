@@ -67,22 +67,27 @@ app.layout = html.Div(style={'backgroundColor': 'black', 'minHeight': '100vh'}, 
         ),
         
         html.Div(style={
-            'display': 'flex',
-            'justifyContent': 'center',
-            'flexWrap': 'wrap',
-            'gap': '10px'
-        }, children=[
-            dcc.Link(
-                html.Button(
-                    page['name'],
-                    id=f'btn-{page["name"].lower().replace(" ", "-")}',
-                    className='dash-button',
-                    n_clicks=0
-                ),
-                href=page['relative_path'],
-                style={'textDecoration': 'none'}
-            ) for page in dash.page_registry.values()
-        ])
+    'display': 'flex',
+    'justifyContent': 'center',
+    'flexWrap': 'wrap',
+    'gap': '10px'
+}, children=[
+    dcc.Link(
+        html.Button(
+            page['name'],
+            id=f'btn-{page["name"].lower().replace(" ", "-")}',
+            className='dash-button',
+            n_clicks=0
+        ),
+        href=page['relative_path'],
+        style={'textDecoration': 'none'}
+    )
+    for page in sorted(
+        dash.page_registry.values(),
+        key=lambda p: (p['name'] in ['About', 'References'], p['name'])
+    )
+])
+
     ]),
     dash.page_container
 ])

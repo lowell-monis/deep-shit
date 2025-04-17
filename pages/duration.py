@@ -7,17 +7,13 @@ import dash
 
 dash.register_page(__name__, name="Duration Dynamics", path="/duration-density")
 
-# Load and clean data
 df = pd.read_csv('data/tiktok_dataset.csv')
 df = df[df['video_duration_sec'].notna() & df['claim_status'].isin(['claim', 'opinion'])]
 
-# Colors
 colors = {'claim': '#FF0050', 'opinion': '#00F2EA'}
 
-# KDE Plot
 fig_kde = go.Figure()
 
-# Add KDE traces and median lines
 for label in ['claim', 'opinion']:
     subset = df[df['claim_status'] == label]['video_duration_sec']
     kde = gaussian_kde(subset, bw_method=0.3)
@@ -66,7 +62,7 @@ fig_kde.update_layout(
     paper_bgcolor='black'
 )
 
-# Layout
+
 layout = html.Div(className='main-container', children=[
     html.H1("Claim videos are just as short, if not shorter, than opinion videos — and that’s what makes them dangerous.", style={'fontFamily': 'Garamond'}),
 

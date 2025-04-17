@@ -1,4 +1,3 @@
-# Generate Plotly figures and export to HTML with placeholders for explanatory text
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -6,27 +5,22 @@ from collections import Counter
 import re
 import pandas as pd
 
-# Load data
 df = pd.read_csv("data/tiktok_dataset.csv")
 
-# Filter out rows with missing values where necessary
 df = df.dropna(subset=['claim_status', 'video_view_count', 'video_like_count',
                        'video_share_count', 'video_duration_sec', 
                        'verified_status', 'author_ban_status', 'video_transcription_text'])
 
-# === 1. Misinformation vs. Engagement (Views)
 fig1 = px.box(
     df, x="claim_status", y="video_view_count", color="claim_status",
     title="Views by Claim Status"
 )
 
-# === 2. Creator Verification
 fig2 = px.histogram(
     df, x="verified_status", color="claim_status", barmode="group",
     title="Claim Status by Creator Verification"
 )
 
-# === 3a. Content Patterns – Video Duration
 fig3 = px.violin(
     df, y="video_duration_sec", color="claim_status", box=True, points="all",
     title="Video Duration by Claim Status"

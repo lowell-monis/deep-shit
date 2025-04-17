@@ -1,15 +1,16 @@
 from dash import dcc, html
 import dash
 
-dash.register_page(__name__, path='/about', name="About & References")
+dash.register_page(__name__, path='/references', name="References and More Info")
 
 layout = html.Div(
+    className="main-container",
     style={
-        'backgroundColor': 'black', 
+        'backgroundColor': 'black',
         'padding': '40px',
         'minHeight': '100vh',
         'color': 'white',
-        'fontFamily': '"Garamond", serif'
+        'fontFamily': 'Garamond, serif'
     },
     children=[
         html.H1(
@@ -21,105 +22,57 @@ layout = html.Div(
                 'textShadow': '2px 2px 0 #ff0050, 4px 4px 0 #00f2ea'
             }
         ),
-        
-        html.Div(
-            style={
-                'backgroundColor': '#111',
-                'padding': '30px',
-                'borderRadius': '10px',
-                'marginBottom': '40px',
-                'boxShadow': '0 4px 8px rgba(0,0,0,0.3)'
-            },
-            children=[
-                html.H2(
-                    "About This Project",
-                    style={
-                        'color': '#00F2EA', 
-                        'borderBottom': '1px solid #333',
-                        'paddingBottom': '10px'
-                    }
-                ),
-                html.P(
-                    "This dashboard analyzes TikTok content moderation patterns through interactive visualizations.",
-                    style={'fontSize': '1.1rem'}
-                ),
-                html.Div(
-                    [
-                        html.P("Created by Lowell Monis", style={'marginBottom': '5px'}),
-                        html.A(
-                            "GitHub Profile",
-                            href="https://github.com/lowell-monis",
-                            target="_blank",
-                            style={
-                                'color': '#FF0050',  # TikTok Pink
-                                'textDecoration': 'none',
-                                'marginRight': '20px'
-                            }
-                        ),
-                        html.A(
-                            "[Other Website Placeholder]",
-                            href="#",  # Replace with your link
-                            target="_blank",
-                            style={
-                                'color': '#00F2EA',
-                                'textDecoration': 'none'
-                            }
-                        )
-                    ],
-                    style={'marginTop': '20px'}
-                )
-            ]
-        ),
-        
-        html.Div(
-            style={
-                'backgroundColor': '#111',
-                'padding': '30px',
-                'borderRadius': '10px',
-                'boxShadow': '0 4px 8px rgba(0,0,0,0.3)'
-            },
-            children=[
-                html.H2(
-                    "References & Sources",
-                    style={
-                        'color': '#FF0050',
-                        'borderBottom': '1px solid #333',
-                        'paddingBottom': '10px'
-                    }
-                ),
-                html.H3("Data Sources", style={'marginTop': '20px'}),
-                html.Ul([
-                    html.Li("TikTok Moderation Dataset: [Source to be added]"),
-                    html.Li("Content Policy Documentation: [Source to be added]")
+
+        html.Div(className='text-info-box', style={'fontSize': '1.15rem', 'lineHeight': '1.8'}, children=[
+            html.Div(className='text-info-header', children="About This Project"),
+            html.Div(className='text-info-content', children=[
+                html.P("This dashboard was developed as part of the CMSE 402 course at Michigan State University to explore the structural pathways of misinformation propagation on TikTok using Python, Dash, and Plotly."),
+                html.P("The goal of this project is to help users — especially those in positions of influence — understand how short-form content on platforms like TikTok can distort attention and, ultimately, truth."),
+                html.P("This interactive dashboard allows exploration of metadata surrounding flagged content, creator verification, video duration, and moderation outcomes such as bans and under-review statuses."),
                 ]),
-                
-                html.H3("Design Inspiration", style={'marginTop': '20px'}),
+            html.Div(style={'marginTop': '20px'}, children=[
+                html.P("Created by Lowell Monis", style={'marginBottom': '5px'}),
+                html.A("GitHub Profile", href="https://github.com/lowell-monis", target="_blank",
+                       style={'color': '#FF0050', 'textDecoration': 'none', 'marginRight': '20px'}),
+                html.A("CMSE 402 Spring 2025", href="https://msu-cmse-courses.github.io/cmse402-S25-student/", target="_blank",
+                       style={'color': '#00F2EA', 'textDecoration': 'none'})
+            ])
+        ]),
+
+        html.Div(className='text-info-box', children=[
+            html.Div(className='text-info-header', children="References & Sources"),
+            html.Div(className='text-info-content', children=[
+                html.H5("Content", style={'marginTop': '20px'}),
                 html.Ul([
-                    html.Li("TikTok Brand Colors"),
-                    html.Li("Glitch Art Aesthetics"),
-                    html.Li("Modern Data Visualization Principles")
+                    html.Li(html.A("Deceptive Trends: The Societal Impact of Disinformation on TikTok (Australian Outlook)", href="https://www.internationalaffairs.org.au/australianoutlook/deceptive-trends-the-societal-impact-of-disinformation-on-tiktok/", target="_blank")),
+                    html.Li(html.A("TikTok users being fed misleading election news (BBC)", href="https://www.bbc.com/news/articles/c1ww6vz1l81o", target="_blank"))
                 ]),
-                
-                html.H3("Technical References", style={'marginTop': '20px'}),
+
+                html.H5("Media, Visual & Stock Sources", style={'marginTop': '20px'}),
                 html.Ul([
-                    html.Li("Plotly Dash Documentation"),
-                    html.Li("Pandas Data Analysis"),
-                    html.Li("CSS Animation Techniques")
+                    html.Li("Intro video clip: Samantha Bee - YouTube Clip"),
+                    html.Li(html.A("How conspiracy theories spread online", href="https://theconversation.com/how-conspiracy-theories-spread-online-its-not-just-down-to-algorithms-133891", target="_blank")),
+                    html.Li(html.A("YouTube’s misinformation problem (NYTimes)", href="https://www.nytimes.com/2022/11/05/technology/youtube-misinformation.html", target="_blank"))
+                ]),
+
+                html.H5("Dataset"),
+                html.Ul([
+                    html.Li(html.A("TikTok Moderation Dataset on Kaggle", href="https://www.kaggle.com/datasets/raminhuseyn/dataset-from-tiktok/data", target="_blank"))
+                ]),
+
+                html.H5("TikTok Policy & Brand Guidelines"),
+                html.Ul([
+                    html.Li(html.A("TikTok Developer Design Guidelines", href="https://developers.tiktok.com/doc/getting-started-design-guidelines?enter_method=left_navigation", target="_blank"))
+                ]),
+
+                html.H5("Design Inspiration", style={'marginTop': '20px'}),
+                html.Ul([
+                    html.Li("TikTok's Brand Palette and Typography"),
+                    html.Li("Glitch Art Aesthetics as a metaphor for distortion of truth"),
+                    html.Li("TikTok's original glitch style animation"),
+                    html.Li("Interactive and Ethical Data Visualization Principles")
                 ])
-            ]
-        ),
-        
-        # Footer
-        html.Div(
-            style={
-                'textAlign': 'center',
-                'marginTop': '50px',
-                'color': '#666'
-            },
-            children=[
-                html.P("© 2023 TikTok Moderation Analysis Dashboard"),
-                html.P("All data used for educational purposes")
-            ]
-        )
+            ])
+        ]),
     ]
 )
